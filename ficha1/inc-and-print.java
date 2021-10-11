@@ -1,8 +1,13 @@
 class Increment implements Runnable {
-  public void run() {
-    final long I=100;
+  final long i; 
 
-    for (long i = 0; i < I; i++)
-      System.out.println(i);
+  public Increment (int newI){
+    this.i = newI;
+  }
+  public void run() {
+    final long i=100;
+
+    for (long j = 0; j < i; j++)
+      System.out.println(j);
   }
 }
