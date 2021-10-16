@@ -4,7 +4,10 @@ class Mover implements Runnable {
   Bank b;
   int s; // Number of accounts
 
-  public Mover(Bank b, int s) { this.b=b; this.s=s; }
+  public Mover(Bank b, int s) { 
+    this.b=b; 
+    this.s=s; 
+  }
 
   public void run() {
     final int moves=100000;
@@ -26,16 +29,17 @@ class BankTest {
 
     Bank b = new Bank(N);
 
+    System.out.println("Depositando 1000 em "+N+" contas...");
     for (int i=0; i<N; i++) 
       b.deposit(i,1000);
 
-    System.out.println(b.totalBalance());
+    System.out.println("Saldo total no banco antes das threads -> " + b.totalBalance());
 
     Thread t1 = new Thread(new Mover(b,10)); 
     Thread t2 = new Thread(new Mover(b,10));
 
     t1.start(); t2.start(); t1.join(); t2.join();
 
-    System.out.println(b.totalBalance());
+    System.out.println("Saldo total no banco depois das threads-> " + b.totalBalance());
   }
 }

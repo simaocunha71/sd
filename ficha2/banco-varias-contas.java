@@ -1,3 +1,6 @@
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 class Bank {
 
   private static class Account {
@@ -24,6 +27,8 @@ class Bank {
     }
   }
 
+  Lock l = new ReentrantLock();
+
   // Bank slots and vector of accounts
   private int slots;
   private Account[] av; 
@@ -32,27 +37,67 @@ class Bank {
   {
     slots=n;
     av=new Account[slots];
-    for (int i=0; i<slots; i++) av[i]=new Account(0);
+    for (int i=0; i<slots; i++) 
+      av[i]=new Account(0);
   }
 
   // Account balance
   public int balance(int id) {
-    if (id < 0 || id >= slots)
-      return 0;
-    return av[id].balance();
+    l.lock();
+    try{
+      if (id < 0 || id >= slots)
+        return 0;
+      return av[id].balance();
+    }
+    finally{
+      l.unlock();
+    }
+
   }
 
   // Deposit
   boolean deposit(int id, int value) {
-    if (id < 0 || id >= slots)
-      return false;
-    return av[id].deposit(value);
+    l.lock();
+    try{
+      if (id < 0 || id >= slots)
+        return false;
+      return av[id].deposit(value);
+    }
+    finally{
+      l.unlock();
+    }
+
   }
 
   // Withdraw; fails if no such account or insufficient balance
   public boolean withdraw(int id, int value) {
-    if (id < 0 || id >= slots)
-      return false;
-    return av[id].withdraw(value);
+    l.lock();
+    try{
+      if (id < 0 || id >= slots)
+        return false;
+      return av[id].withdraw(value);
+    }
+    finally{
+      l.unlock();
+    }
+  }
+
+  boolean transfer (int from,int to,int value){
+    l.lock();
+    try{
+      Boolean w = withdraw(from, value);
+      Boolean d = deposit(to, value);
+      return w && d;
+    }
+    finally{
+      l.unlock();
+    }
+  }
+
+  int totalBalance(){
+    int i, r = 0;
+    for (i = 0; i < av.length; i++)
+      r += av[i].balance();
+    return r;
   }
 }
