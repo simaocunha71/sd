@@ -151,16 +151,17 @@ class Bank {
 
   /**
    * Devolve o saldo de todas as contas bancarias
+   * Sempre que se somar o saldo total, vai-se libertando essa conta da thread que a usou
    * @return Saldo de todas as contas bancarias
    */
   int totalBalance(){
     int r = 0;
     for (int i = 0; i < av.length; i++)
       av[i].l.lock();
-    for (int i = 0; i < av.length; i++)
+    for (int i = 0; i < av.length; i++){
       r += av[i].balance();
-    for (int i = 0; i < av.length; i++)
       av[i].l.unlock();
+    }
   return r;
   }
 }
