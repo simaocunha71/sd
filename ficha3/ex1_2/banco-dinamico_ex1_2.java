@@ -167,16 +167,17 @@ class Bank {
     // sum of balances in set of accounts; 0 if some does not exist
     public int totalBalance(int[] ids) {
         int total = 0;
-        Account[] arr = new Account[ids.length];
-        Arrays.sort(arr); //ordenar os locks para evitar deadlocks
+        List<Account> cs = new ArrayList<>();
         l.lock();
         try{
-            for (int i = 0; i < ids.length; i++){
-                arr[i] = map.get(ids[i]);
-                if (arr[i] == null)
+            for (int i : Arrays.stream(ids).sorted().toArray()) {
+                Account c = map.get(ids[i]);
+                if (c == null)
                     return 0;
+                cs.add(c);
             }
-            for (Account a : arr) {
+
+            for (Account a : cs) {
                 a.l.lock();
             }
         }
@@ -184,13 +185,10 @@ class Bank {
             l.unlock();
         }
 
-        for (Account acc : arr){
+        for (Account acc : cs){
             total += acc.balance();
             acc.l.unlock();
         }
         return total;
-    }
-    public static void main(String[] args) {
-        System.out.println("Fazer o exercicio 2 aqui neste método");
     }
 }
