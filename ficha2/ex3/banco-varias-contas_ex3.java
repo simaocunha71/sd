@@ -119,6 +119,7 @@ class Bank {
    * Transfere de from para to. 
    * O valor da transferencia é value.
    * Pressupoe-se que as contas inseridas como input existem.
+   * Não importa a ordem de libertar os locks, mas importa a ordem de adquirir os locks 
    * @param from Origem da transferencia
    * @param to Destino da transferencia
    * @param value Valor da transferencia
@@ -138,15 +139,33 @@ class Bank {
       cto.l.lock();
       cto.l.unlock();
     }
+    
     try {
-      if (!cfrom.withdraw(value))
-        return false;
-      else
-        return cto.deposit(value);
-    } finally{
-      cfrom.l.unlock();
+      try {
+        if (!cfrom.withdraw(value))
+          return false;
+      } finally {
+        cfrom.l.unlock();
+      }
+      return cto.deposit(value);
+    } finally {
       cto.l.unlock();
     }
+
+    /* minha resolução
+    try {
+      if (!cfrom.withdraw(value)) 
+        return false;
+      try{
+        return cto.deposit(value);
+      } finally{
+        cto.l.unlock();
+      }
+    }finally{
+      cfrom.l.unlock();
+    }
+    */
+    
   }
 
   /**
