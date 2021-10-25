@@ -1,13 +1,13 @@
-package ex1_2;
+package ex3;
 
 import java.util.Random;
 
 
 class Mover implements Runnable {
-    Bank b;
+    BankEx3 b;
     int s; // Number of accounts
 
-    public Mover(Bank b, int s) {
+    public Mover(BankEx3 b, int s) {
         this.b = b;
         this.s = s;
     }
@@ -21,7 +21,7 @@ class Mover implements Runnable {
             from = rand.nextInt(s); // Get one
             while ((to = rand.nextInt(s)) == from); // Slow way to get distinct
             b.transfer(from, to, 1);
-            System.out.println("Enviei de #"+from+" para "+to+" com o valor de transferencia 1€");
+            System.out.println("Enviei de #"+from+" para #"+to+" com o valor de transferencia 1€");
         }
     }
 }
@@ -30,8 +30,7 @@ class BankTest {
     public static void main(String[] args) throws InterruptedException {
         final int N = 10;
 
-        Bank b = new Bank();
-        System.out.println("Corrigir: existem deadlocks");
+        BankEx3 b = new BankEx3();
         System.out.println("-----------------------Exercicio 2-----------------------");
         System.out.println("Criando "+N+" contas com "+1000+"€ cada...");
         for (int i = 0; i < N; i++)
@@ -45,11 +44,12 @@ class BankTest {
         
         t1.start(); t2.start();
         t1.join(); t2.join();
-        System.out.println("Fechando as " + N + " contas...");
+        System.out.println("Fechando as "+N+" contas...");
         for (int i = 0; i < N; i++)
             b.closeAccount(i);
 
         System.out.println("Saldo total depois das threads: " + b.totalBalance(v)+"€");
+        System.out.println("Expectável: 0€");
         System.out.println("--------------------------------------------------");
     }
 }
