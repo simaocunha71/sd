@@ -41,26 +41,34 @@ class Barrier {
         }
     }
 
-    private boolean open = true;
-
     /**
      * Refere-se à versão do exercicio 2
      * @throws InterruptedException
      */
+
+    private boolean open = false;
+
     void await12() throws InterruptedException{
         l.lock();
         try {
-            counter++;  
+            while(open == true)
+                c.await();
+            counter++;
             if (counter < nThreads){
-                while(open){
+                while(open == false){
                     c.await();
-                    open = false;
                 }
             }
             else{
+                open = true;
                 c.signalAll();
             }
-            
+            counter--;
+
+            if(counter == 0){
+                open = false;
+                c.signalAll();
+            }
 
         } finally {
             l.unlock();
@@ -97,7 +105,7 @@ class Tester extends Thread{
 }
 
 class Main{
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         int nt = 3;
         Barrier b = new Barrier(nt);
         Thread[] at = new Thread[nt];
