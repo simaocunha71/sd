@@ -1,3 +1,5 @@
+package ficha6.cliente_servidor_sequencial;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

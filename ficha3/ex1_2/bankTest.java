@@ -1,4 +1,4 @@
-package ex1_2;
+package ficha3.ex1_2;
 
 import java.util.Random;
 
