@@ -1,7 +1,7 @@
-package ficha8;
+package ficha8.ex2;
 
 import java.net.Socket;
-import static ficha8.TaggedConnection.Frame;
+import static ficha8.ex2.TaggedConnection.Frame;
 
 public class SequentialClient {
     public static void main(String[] args) throws Exception {
