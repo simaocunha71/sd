@@ -1,3 +1,4 @@
+package ficha1;
 /**
  * Classe do Depositor para a versão com locks (é exatamente igual à versão sem locks, simplesmente copiei)
  */

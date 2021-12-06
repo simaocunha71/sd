@@ -1,3 +1,5 @@
+package ficha1;
+
 class Bank {
 
   private static class Account {

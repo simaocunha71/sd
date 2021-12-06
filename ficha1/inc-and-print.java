@@ -1,3 +1,4 @@
+package ficha1;
 class Increment implements Runnable {
   final long i; 
 

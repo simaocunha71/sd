@@ -1,3 +1,4 @@
+package ficha1;
 /**
  * Classe de um depositor
  */
