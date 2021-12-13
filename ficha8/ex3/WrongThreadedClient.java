@@ -1,7 +1,10 @@
 package ficha8.ex3;
 
 import java.net.Socket;
-import static g8.TaggedConnection.Frame;
+
+import ficha8.ex2.TaggedConnection;
+import ficha8.ex2.TaggedConnection.Frame;
+
 
 public class WrongThreadedClient {
     public static void main(String[] args) throws Exception {

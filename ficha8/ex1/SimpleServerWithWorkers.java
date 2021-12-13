@@ -5,7 +5,7 @@ import java.net.Socket;
 
 
 public class SimpleServerWithWorkers {
-    final static int WORKERS_PER_CONNECTION = 3;
+    static final int WORKERS_PER_CONNECTION = 3;
 
     public static void main(String[] args) throws Exception {
         ServerSocket ss = new ServerSocket(12345);

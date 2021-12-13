@@ -2,7 +2,8 @@ package ficha8.ex3;
 
 import java.net.Socket;
 
-import ficha8.ex3.Desmultiplexer;
+import ficha8.ex2.TaggedConnection;
+import ficha8.ex3.Demultiplexer;
 
 public class ThreadedClient {
     public static void main(String[] args) throws Exception {
@@ -20,7 +21,9 @@ public class ThreadedClient {
                     // get reply
                     byte[] data = m.receive(1);
                     System.out.println("(1) Reply: " + new String(data));
-                }  catch (Exception ignored) {}
+                }  catch (Exception ignored) {
+                    ignored.printStackTrace();
+                }
             }),
 
             new Thread(() -> {
@@ -31,14 +34,18 @@ public class ThreadedClient {
                     // get reply
                     byte[] data = m.receive(3);
                     System.out.println("(2) Reply: " + new String(data));
-                }  catch (Exception ignored) {}
+                }  catch (Exception ignored) {
+                    ignored.printStackTrace();
+                }
             }),
 
             new Thread(() -> {
                 try  {
                     // One-way
                     m.send(0, ":-p".getBytes());
-                }  catch (Exception ignored) {}
+                }  catch (Exception ignored) {
+                    ignored.printStackTrace();
+                }
             }),
 
             new Thread(() -> {
@@ -51,7 +58,9 @@ public class ThreadedClient {
                             break;
                         System.out.println("(4) From stream: " + new String(data));
                     }
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                    ignored.printStackTrace();
+                }
             }),
 
             new Thread(() -> {
@@ -64,7 +73,9 @@ public class ThreadedClient {
                             break;
                         System.out.println("(5) From stream: " + new String(data));
                     }
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                    ignored.printStackTrace();
+                }
             })
 
         };
